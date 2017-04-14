@@ -1,0 +1,31 @@
+<?php
+
+use Drupal\Core\Url;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Alter Form HOOK
+ */
+function custom_dc_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  if('user_login_form' == $form_id){
+      
+    //Redirect callback
+    $form['actions']['submit']['#submit'][] = 'user_redirect_submit';
+      
+    //Loggin action  
+    \Drupal::logger('custom_dc')->error( 'Test Redirect user!');
+
+  }
+}
+
+/**
+ * User form submit handler
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ */
+function user_redirect_submit(&$form, FormStateInterface $form_state) {
+
+  // From URL to URL object
+  $form_state->setRedirect('<front>');
+}
